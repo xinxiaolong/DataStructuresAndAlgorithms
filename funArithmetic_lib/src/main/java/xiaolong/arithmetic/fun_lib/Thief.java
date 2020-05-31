@@ -27,7 +27,7 @@ import java.util.Arrays;
  * 一开始小看了，其实是一个知识盲点，关于动态规划的算法。
  *
  * https://leetcode-cn.com/problems/house-robber/
- * 
+ *
  */
 public class Thief {
 
