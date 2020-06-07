@@ -203,10 +203,10 @@ public class MajorityNum {
                 num = nums[i];
                 count = 1;
             } else if (num == nums[i]) {
-                //当新数字和上个数字一样时，给num的数量加一
+                //当新数字和上个数字num一样时，给num的数量加一
                 count++;
             } else {
-                //当新的数字和上个数字不一样时，说明要产生抵消了，那么num数量要减一。
+                //当新的数字和上个数字num不一样时，说明要产生抵消了，那么num数量要减一。
                 count--;
             }
         }

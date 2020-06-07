@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+    Person mPerson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +25,60 @@ public class MainActivity extends Activity {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
         }else {
             Log.e("sdkVersion",Build.VERSION.SDK_INT +" in else");
-
         }
+
+
+
+
+        mainThreadFun();
     }
+
+
+    public void mainThreadFun(){
+
+
+        mPerson=new Person();
+        mPerson.name="main Thread person";
+
+        new Thread(runnable).start();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mPerson.name="main Thread notify person";
+
+
+    }
+    Runnable runnable=new Runnable() {
+        @Override
+        public void run() {
+
+            ThreadLocal<Person> threadLocal=new ThreadLocal<Person>(){
+                protected Person initialValue() {
+                    return new Person();
+                }
+            };
+
+            Log.e("thread",Thread.currentThread().getName()+"   person    "+threadLocal.get().name);
+            threadLocal.set(mPerson);
+            Log.e("thread",Thread.currentThread().getName()+"   person    "+threadLocal.get().name);
+
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.e("thread",Thread.currentThread().getName()+"   person    "+threadLocal.get().name);
+        }
+    };
+
+    class Person {
+        String name="default name";
+    }
+
 
     MsgHandler handler=new MsgHandler();
 
