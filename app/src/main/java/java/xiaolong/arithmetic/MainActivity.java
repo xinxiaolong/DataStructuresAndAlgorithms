@@ -17,28 +17,26 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView tv=findViewById(R.id.tv);
+        TextView tv = findViewById(R.id.tv);
         tv.setText("这个是textView");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Log.e("sdkVersion",Build.VERSION.SDK_INT +"");
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-        }else {
-            Log.e("sdkVersion",Build.VERSION.SDK_INT +" in else");
+            Log.e("sdkVersion", Build.VERSION.SDK_INT + "");
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        } else {
+            Log.e("sdkVersion", Build.VERSION.SDK_INT + " in else");
         }
-
-
 
 
         mainThreadFun();
     }
 
 
-    public void mainThreadFun(){
+    public void mainThreadFun() {
 
 
-        mPerson=new Person();
-        mPerson.name="main Thread person";
+        mPerson = new Person();
+        mPerson.name = "main Thread person";
 
         new Thread(runnable).start();
 
@@ -47,23 +45,24 @@ public class MainActivity extends Activity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        mPerson.name="main Thread notify person";
+        mPerson.name = "main Thread notify person";
 
 
     }
-    Runnable runnable=new Runnable() {
+
+    Runnable runnable = new Runnable() {
         @Override
         public void run() {
 
-            ThreadLocal<Person> threadLocal=new ThreadLocal<Person>(){
+            ThreadLocal<Person> threadLocal = new ThreadLocal<Person>() {
                 protected Person initialValue() {
                     return new Person();
                 }
             };
 
-            Log.e("thread",Thread.currentThread().getName()+"   person    "+threadLocal.get().name);
+            Log.e("thread", Thread.currentThread().getName() + "   person    " + threadLocal.get().name);
             threadLocal.set(mPerson);
-            Log.e("thread",Thread.currentThread().getName()+"   person    "+threadLocal.get().name);
+            Log.e("thread", Thread.currentThread().getName() + "   person    " + threadLocal.get().name);
 
 
             try {
@@ -71,18 +70,18 @@ public class MainActivity extends Activity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Log.e("thread",Thread.currentThread().getName()+"   person    "+threadLocal.get().name);
+            Log.e("thread", Thread.currentThread().getName() + "   person    " + threadLocal.get().name);
         }
     };
 
     class Person {
-        String name="default name";
+        String name = "default name";
     }
 
 
-    MsgHandler handler=new MsgHandler();
+    MsgHandler handler = new MsgHandler();
 
-    static class MsgHandler extends Handler{
+    static class MsgHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
